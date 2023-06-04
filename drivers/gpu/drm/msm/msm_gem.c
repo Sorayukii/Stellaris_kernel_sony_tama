@@ -1076,7 +1076,4 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
 	msm_obj->pages = NULL;
 
 	return obj;
-
-	drm_gem_object_unreference_unlocked(obj);
-	return ERR_PTR(ret);
 }
