@@ -340,6 +340,7 @@ skip_pgd:
 	/* PUD */
 walk_puds:
 	.if CONFIG_PGTABLE_LEVELS > 3
+	pte_to_phys	cur_pudp, pgd
 	add	end_pudp, cur_pudp, #(PTRS_PER_PUD * 8)
 do_pud:	__idmap_kpti_get_pgtable_ent	pud
 	tbnz	pud, #1, walk_pmds
@@ -360,6 +361,7 @@ next_pud:
 	/* PMD */
 walk_pmds:
 	.if CONFIG_PGTABLE_LEVELS > 2
+	pte_to_phys	cur_pmdp, pud
 	add	end_pmdp, cur_pmdp, #(PTRS_PER_PMD * 8)
 do_pmd:	__idmap_kpti_get_pgtable_ent	pmd
 	tbnz	pmd, #1, walk_ptes
@@ -379,6 +381,7 @@ next_pmd:
 
 	/* PTE */
 walk_ptes:
+	pte_to_phys	cur_ptep, pmd
 	add	end_ptep, cur_ptep, #(PTRS_PER_PTE * 8)
 do_pte:	__idmap_kpti_get_pgtable_ent	pte
 	__idmap_kpti_put_pgtable_ent_ng	pte
