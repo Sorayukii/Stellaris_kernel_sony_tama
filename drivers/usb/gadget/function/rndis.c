@@ -1117,7 +1117,8 @@ EXPORT_SYMBOL_GPL(rndis_free_response);
 u8 *rndis_get_next_response(struct rndis_params *params, u32 *length)
 {
 	rndis_resp_t *r, *n;
-
+	unsigned long flags;
+	
 	if (!length) return NULL;
 
 	spin_lock(&params->resp_lock);
